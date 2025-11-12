@@ -53,3 +53,5 @@ logs/
 
 
 
+
+/src/generated/prisma
