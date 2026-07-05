@@ -9,6 +9,7 @@ import { authMiddleware } from "./middleware/authMiddleware";
 
 /** ROUTE IMPORTS */
 import tenantRoutes from "./routes/tenantRoutes";
+import managerRoutes from "./routes/managerRoutes";
 
 /** CONFIGURATIONS */
 dotenv.config();
@@ -28,10 +29,11 @@ app.get("/", (req, res) => {
   res.send("API is running....");
 });
 
-// app.use("/tenants", authMiddleware(['/tenant']), tenantRoutes)
+app.use("/tenants", authMiddleware(["/tenant"]), tenantRoutes);
+app.use("/managers", authMiddleware(["/manager"]), managerRoutes);
 
 /** SERVER LISTENING */
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () =>
   console.log(`Server running on port: http://localhost:${PORT}`)
 );

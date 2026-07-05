@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 interface DecodedToken extends JwtPayload {
@@ -22,7 +22,7 @@ export const authMiddleware = (allowedRoles: string[]) => {
     const token = req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      res.status(401).json({ message: "Unauthorized: No token provided" });
+      res.status(401).json({ message: "Unauthorized" });
       return;
     }
 
@@ -36,12 +36,12 @@ export const authMiddleware = (allowedRoles: string[]) => {
 
       const hasAccess = allowedRoles.includes(userRole.toLowerCase());
       if (!hasAccess) {
-        res.status(403).json({ message: "Access denied" });
+        res.status(403).json({ message: "Access Denied" });
         return;
       }
     } catch (err) {
       console.error("Failed to decode token:", err);
-      res.status(401).json({ message: "Invalid token " });
+      res.status(400).json({ message: "Invalid token" });
       return;
     }
 
